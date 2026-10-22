@@ -1,0 +1,15 @@
+# Runtime dependencies (pinned to the versions the test suite was run against).
+# NOTE: `pip install torch` from PyPI pulls CUDA wheels (GBs). For CPU-only installs use the
+# PyTorch CPU index first: pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+fastapi==0.161.0
+uvicorn==0.54.0
+pydantic==2.14.1
+pydantic-settings==2.16.1
+httpx==0.28.1
+numpy==2.5.4
+faiss-cpu==1.15.1
+pymupdf==2.0
+sqlglot==30.24.0
+sentence-transformers==6.2.0
+transformers==5.20.2
+torch==2.14.1

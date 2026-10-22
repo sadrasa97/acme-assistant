@@ -1,0 +1,17 @@
+services:
+  assistant:
+    build: .
+    env_file: .env
+    environment:
+      DOCUMENTS_DIR: /srv/data/documents
+      INDEX_DIR: /srv/state/index
+      SQLITE_PATH: /srv/state/acme.db
+      HF_HOME: /models
+    ports:
+      - "8000:8000"
+    volumes:
+      - acme_state:/srv/state     # SQLite DB + FAISS index survive container removal
+      - hf_cache:/models          # e5-large-v2 weights are downloaded once, not baked into the image
+volumes:
+  acme_state:
+  hf_cache:
