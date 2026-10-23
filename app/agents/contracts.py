@@ -79,7 +79,7 @@ class Plan(BaseModel):
     route: Route
     steps: list[PlanStep] = Field(default_factory=list)
     reason: str = ""
-    source: Literal["llm", "fallback"] = "llm"
+    source: Literal["llm", "fallback", "retrieval_override"] = "llm"
 
 
 class StepTrace(BaseModel):
@@ -90,6 +90,10 @@ class StepTrace(BaseModel):
     input: dict[str, Any] = Field(default_factory=dict)
     summary: str = ""
     error: str | None = None
+    sql: str | None = None
+    output: dict[str, Any] | None = None
+    sources: list[SourceRef] = Field(default_factory=list)
+    calculation: CalculatorResult | None = None
 
 
 class AskResponse(BaseModel):

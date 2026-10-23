@@ -145,9 +145,4 @@ e5 cosine scores are compressed (unrelated text often still scores ~0.7+). Run `
 - Retries apply to LLM calls only; all database operations are read-only so retries cannot cause side effects.
 - Logs record request id, route, steps, timings, and a question hash + length (not the raw question); API keys are never logged or returned.
 
-## Publishing
-No GitHub repository was created from this session. To publish:
-```bash
-git remote add origin git@github.com:<you>/acme-assistant.git
-git push -u origin main
-```
+

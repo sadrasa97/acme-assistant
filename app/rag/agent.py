@@ -26,6 +26,16 @@ class RAGAgent:
     def __init__(self, settings: Settings, embedder: Embedder, store: VectorStore | None, llm: LLMProvider):
         self._s, self._embedder, self.store, self._llm = settings, embedder, store, llm
 
+    def probe(self, question: str) -> float | None:
+        """Top similarity score for a question (no LLM call); None if retrieval is unavailable."""
+        if self.store is None:
+            return None
+        try:
+            hits = self.store.search(self._embedder.embed_query(question), 1)
+        except Exception:
+            return None
+        return hits[0][1] if hits else None
+
     def run(self, question: str) -> RAGResult:
         if self.store is None:
             return RAGResult(status=Status.ERROR, answer="", error="document index is not available")

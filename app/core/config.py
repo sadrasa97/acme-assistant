@@ -4,7 +4,7 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -49,6 +49,16 @@ class Settings(BaseSettings):
     request_timeout_seconds: float = 90.0
     max_question_length: int = 1000
     log_level: str = "INFO"
+
+    @field_validator("*", mode="before")
+    @classmethod
+    def _strip_inline_comment(cls, v):
+        """Docker Compose's env_file keeps `VALUE   # comment` as the value; drop such a trailing comment."""
+        if isinstance(v, str):
+            v = v.split(" #", 1)[0].split("\t#", 1)[0].strip()
+            if v.startswith("#"):
+                v = ""
+        return v
 
 
 @lru_cache
